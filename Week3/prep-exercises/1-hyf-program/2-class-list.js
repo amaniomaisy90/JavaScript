@@ -1,21 +1,22 @@
-import { modules, students, mentors, classes } from "./hyf.js";
-
-/**
- * We would like to have a list of everyone that is currently participating in a class.
- * This means the students, but also the mentors that are currently teaching the class.
- * The students should be self explanatory, but to find the mentors you will need to follow these steps:
- * - Check what the `currentModule` of the class is
- * - Find the mentor(s) that are `nowTeaching` that module
- *
- * Should return the list of names and their roles. So something like:
- *
- *  [{ name: 'John', role: 'student' }, { name: 'Mary', role: 'mentor' }]
- */
 const getPeopleOfClass = (className) => {
-  // TODO complete this function
+  const { currentModule } = classes.find((item) => item.name === className);
+
+  const studentsClass = students
+    .filter((student) => student.class === className)
+    .map((student) => {
+      return { name: student.name, role: 'student' };
+    });
+
+  const mentorsClass = mentors
+    .filter((mentor) => mentor.nowTeaching === currentModule)
+    .map((mentor) => {
+      return { name: mentor.name, role: 'mentor' };
+    });
+
+  return [...studentsClass, ...mentorsClass];
+
 };
-// You can uncomment out this line to try your function
-// console.log(getPeopleOfClass('class34'));
+console.log(getPeopleOfClass('class34'));
 
 /**
  * We would like to have a complete overview of the current active classes.
@@ -30,7 +31,13 @@ const getPeopleOfClass = (className) => {
  *  }
  */
 const getActiveClasses = () => {
-  // TODO complete this function
+  const activeClasses = classes.filter((specificClass) => specificClass.active);
+
+  return activeClasses.reduce((accumulator, activeClass) => {
+    return {
+      ...accumulator,
+      [activeClass.name]: getPeopleOfClass(activeClass.name),
+    };
+  }, {});
 };
-// You can uncomment out this line to try your function
-// console.log(getActiveClasses());
+console.log(getActiveClasses());
