@@ -1,51 +1,58 @@
-import eurosFormatter from './euroFormatter.js';
+// eurosFormatter.js (simple formatter)
+const eurosFormatter = {
+  format: (amount) => `€${amount.toFixed(2)}`,
+};
 
-function deposit(amount) {
-  this._cash += amount;
-}
+// Shared methods for all wallets
+const walletMethods = {
+  deposit: function (amount) {
+    this._cash += amount;
+  },
 
-function withdraw(amount) {
-  if (this._cash - amount < 0) {
-    console.log(`Insufficient funds!`);
-    return 0;
-  }
+  withdraw: function (amount) {
+    if (this._cash - amount < 0) {
+      console.log(`Insufficient funds!`);
+      return 0;
+    }
+    this._cash -= amount;
+    return amount;
+  },
 
-  this._cash -= amount;
-  return amount;
-}
+  transferInto: function (wallet, amount) {
+    console.log(
+      `Transferring ${eurosFormatter.format(amount)} from ${this._name} to ${
+        wallet.getName()
+      }`
+    );
+    const withdrawnAmount = this.withdraw(amount);
+    wallet.deposit(withdrawnAmount);
+  },
 
-function transferInto(wallet, amount) {
-  console.log(
-    `Transferring ${eurosFormatter.format(amount)} from ${
-      this._name
-    } to ${wallet.getName()}`
-  );
-  const withdrawnAmount = this.withdraw(amount);
-  wallet.deposit(withdrawnAmount);
-}
+  reportBalance: function () {
+    console.log(
+      `Name: ${this._name}, balance: ${eurosFormatter.format(this._cash)}`
+    );
+  },
 
-function reportBalance() {
-  console.log(
-    `Name: ${this._name}, balance: ${eurosFormatter.format(this._cash)}`
-  );
-}
+  getName: function () {
+    return this._name;
+  },
+};
 
-function getName() {
-  return this._name;
-}
-
+// Create a wallet using shared methods
 function createWallet(name, cash = 0) {
-  return {
+  const wallet = {
     _name: name,
     _cash: cash,
-    deposit,
-    withdraw,
-    transferInto,
-    reportBalance,
-    getName,
   };
+
+  // Assign shared methods to the wallet
+  Object.assign(wallet, walletMethods);
+
+  return wallet;
 }
 
+// Main function to demonstrate wallet operations
 function main() {
   const walletJack = createWallet('Jack', 100);
   const walletJoe = createWallet('Joe', 10);
