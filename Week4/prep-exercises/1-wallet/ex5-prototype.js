@@ -1,6 +1,9 @@
-import eurosFormatter from './euroFormatter.js';
+// eurosFormatter.js (simple formatter)
+const eurosFormatter = {
+  format: (amount) => `€${amount.toFixed(2)}`,
+};
 
-function Wallet(name, cash) {
+function Wallet(name, cash = 0) {
   this._name = name;
   this._cash = cash;
 }
@@ -14,16 +17,15 @@ Wallet.prototype.withdraw = function (amount) {
     console.log(`Insufficient funds!`);
     return 0;
   }
-
   this._cash -= amount;
   return amount;
 };
 
 Wallet.prototype.transferInto = function (wallet, amount) {
   console.log(
-    `Transferring ${eurosFormatter.format(amount)} from ${
-      this._name
-    } to ${wallet.getName()}`
+    `Transferring ${eurosFormatter.format(amount)} from ${this._name} to ${
+      wallet.getName()
+    }`
   );
   const withdrawnAmount = this.withdraw(amount);
   wallet.deposit(withdrawnAmount);
