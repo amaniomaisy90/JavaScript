@@ -3,7 +3,6 @@ const eurosFormatter = {
   format: (amount) => `€${amount.toFixed(2)}`,
 };
 
-// Shared methods for all wallets
 const walletMethods = {
   deposit: function (amount) {
     this._cash += amount;
@@ -39,7 +38,6 @@ const walletMethods = {
   },
 };
 
-// Create a wallet using shared methods
 function createWallet(name, cash = 0) {
   const wallet = {
     _name: name,
@@ -52,7 +50,6 @@ function createWallet(name, cash = 0) {
   return wallet;
 }
 
-// Main function to demonstrate wallet operations
 function main() {
   const walletJack = createWallet('Jack', 100);
   const walletJoe = createWallet('Joe', 10);
