@@ -3,7 +3,6 @@ export default {
   format: (amount) => `€${amount.toFixed(2)}`,
 };
 
-// Wallet class
 class Wallet {
   constructor(name, cash) {
     this.name = name;
@@ -38,7 +37,6 @@ class Wallet {
   }
 }
 
-// Main function to demonstrate the Wallet class
 function main() {
   const walletJack = new Wallet('Jack', 100);
   const walletJoe = new Wallet('Joe', 10);
