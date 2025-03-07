@@ -3,7 +3,6 @@ const eurosFormatter = {
   format: (amount) => `€${amount.toFixed(2)}`,
 };
 
-// Create a wallet using an object literal
 function createWallet(name, cash = 0) {
   return {
     name: name,
@@ -40,7 +39,6 @@ function createWallet(name, cash = 0) {
   };
 }
 
-// Main function to demonstrate wallet operations
 function main() {
   const walletJack = createWallet('Jack', 100);
   const walletJoe = createWallet('Joe', 10);
