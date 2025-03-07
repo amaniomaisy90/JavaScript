@@ -1,29 +1,32 @@
-import eurosFormatter from './euroFormatter.js';
+// eurosFormatter.js (simple formatter)
+const eurosFormatter = {
+  format: (amount) => `€${amount.toFixed(2)}`,
+};
 
+// Create a wallet using an object literal
 function createWallet(name, cash = 0) {
   return {
-    _name: name,
-    _cash: cash,
+    name: name,
+    cash: cash,
 
     deposit: function (amount) {
-      this._cash += amount;
+      this.cash += amount;
     },
 
     withdraw: function (amount) {
-      if (this._cash - amount < 0) {
+      if (this.cash - amount < 0) {
         console.log(`Insufficient funds!`);
         return 0;
       }
-
-      this._cash -= amount;
+      this.cash -= amount;
       return amount;
     },
 
     transferInto: function (wallet, amount) {
       console.log(
-        `Transferring ${eurosFormatter.format(amount)} from ${
-          this._name
-        } to ${wallet.getName()}`
+        `Transferring ${eurosFormatter.format(amount)} from ${this.name} to ${
+          wallet.name
+        }`
       );
       const withdrawnAmount = this.withdraw(amount);
       wallet.deposit(withdrawnAmount);
@@ -31,16 +34,13 @@ function createWallet(name, cash = 0) {
 
     reportBalance: function () {
       console.log(
-        `Name: ${this._name}, balance: ${eurosFormatter.format(this._cash)}`
+        `Name: ${this.name}, balance: ${eurosFormatter.format(this.cash)}`
       );
-    },
-
-    getName: function () {
-      return this._name;
     },
   };
 }
 
+// Main function to demonstrate wallet operations
 function main() {
   const walletJack = createWallet('Jack', 100);
   const walletJoe = createWallet('Joe', 10);
